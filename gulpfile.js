@@ -10,6 +10,7 @@ var minifyCss = require('gulp-cssnano');
 var uglify = require('gulp-uglify');
 var mainBowerFiles = require('main-bower-files');
 var filter = require('gulp-filter');
+var less = require('gulp-less');
 
 // Define base folders
 var src = 'public/';
@@ -37,11 +38,22 @@ gulp.task('script', function () {
 
 gulp.task('js', function() {    
 	gulp.src(mainBowerFiles())
-        // .pipe(jsFilter)
 		.pipe(filter('**/*.js'))
 		.pipe(concat('main.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(dest + 'js'));
+
+});
+gulp.task('css', function() {
+
+	// var cssFiles = ['src/css/*'];
+
+	gulp.src(mainBowerFiles())
+		.pipe(filter('**/*.less'))
+		.pipe(concat('lib.less'))
+        .pipe(less())
+		// .pipe(uglify())
+		.pipe(gulp.dest(dest + 'css'));
 
 });
 
@@ -54,7 +66,8 @@ gulp.task('watch', function () {
     livereload.listen();
     gulp.watch(['./public/sass/**/*'], ['sass']);
     gulp.watch(['./public/module/**/*'], ['script']);
+    // gulp.watch(['./public/module/**/*'], ['css']);
 });
 
 // Default Task
-gulp.task('default', ['sass','script', 'watch']);
+gulp.task('default', ['sass','script','css', 'watch']);
