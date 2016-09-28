@@ -17,6 +17,8 @@
     "main-bower-files": "^2.13.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.16.0",
+    "gulp": "^3.9.1",
     "gulp-uglify": "^2.0.0"
   },
   "scripts": {
