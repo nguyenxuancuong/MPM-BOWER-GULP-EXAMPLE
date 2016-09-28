@@ -8,11 +8,13 @@ var rename = require('gulp-rename');
 var livereload = require('gulp-livereload');
 var minifyCss = require('gulp-cssnano');
 var uglify = require('gulp-uglify');
+var mainBowerFiles = require('main-bower-files');
+var filter = require('gulp-filter');
 
 // Define base folders
-var src = 'src/';
-var dest = 'build/';
-
+var src = 'public/';
+var dest = 'public/';
+var component = '../bower_components/**/*';
 // Compile CSS from Sass files
 gulp.task('sass', function () {
     return gulp.src('./public/sass/*.scss')
@@ -32,6 +34,20 @@ gulp.task('script', function () {
         .pipe(gulp.dest('./public/js'))
         .pipe(livereload());
 });
+
+gulp.task('js', function() {    
+	gulp.src(mainBowerFiles())
+        // .pipe(jsFilter)
+		.pipe(filter('**/*.js'))
+		.pipe(concat('main.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(dest + 'js'));
+
+});
+
+
+
+
 
 // Watch Files For Changes
 gulp.task('watch', function () {
